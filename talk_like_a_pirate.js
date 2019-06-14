@@ -2,6 +2,7 @@
 const talk_like_a_pirate = (() => {
 
 	const EOL_CHANGE = 0.25
+	const EOL_WORD_LENGTH = 3
 
 	const pirate_talk = {
 		__eol__: ['Arrrr!', 'Arrrgh!', 'Shiver me timbers!', 'Arrrgh, Jim lad.',],
@@ -36,7 +37,7 @@ const talk_like_a_pirate = (() => {
 		binoculars: 'spyglass',
 		boat: ['ship', 'Man-O-War', 'clipper', 'cog', 'galleon', 'schooner'],
 		boss: ['captain', 'Cap\'n', 'admiral'],
-		box: 'barrel',
+		box: ['barrel', 'chest', 'box'],
 		boy: ['lad', 'pirate'],
 		broken: 'sunk',
 		business: 'company',
@@ -50,6 +51,8 @@ const talk_like_a_pirate = (() => {
 		client: 'Scurvy Dog',
 		cloth: ['canvas', 'hemp'],
 		coffee: ['grog', 'ale'],
+		coin: 'doubloon',
+		coins: 'doubloons',
 		comes: 'hails',
 		con: 'Hornswaggle',
 		contractor: 'Privateer',
@@ -59,11 +62,14 @@ const talk_like_a_pirate = (() => {
 		crew: 'hands',
 		cruise: 'voyage',
 		customer: ['land lubber', 'scurvy land lubber', 'scurvy dog'],
+		daughter: ['lass', 'wench'],
+		daughters: ['wenches'],
 		dead: 'feedin\' the fishes',
 		dealer: ['sutler', 'chandler'],
 		die: ['dance with Jack Ketch', 'walk the plank', 'dance the hempen jig'],
 		died: ['be feedin\' the fishes', 'danced with Jack Ketch', 'walked t\' plank', 'went donw t\' Davey Jones locker', 'danced the hempen jig'],
 		disabled: ['crippled', 'takin\' on water'],
+		disembark: 'abandon ship',
 		do: 'd\'',
 		dog: 'barkin\' parrot',
 		drunk: ['squiffy', 'three sheets to the wind'],
@@ -82,19 +88,21 @@ const talk_like_a_pirate = (() => {
 		friend: ['matey', 'shipmate', 'bucko', 'me hearty'],
 		friends: ['crew', 'Hearties'],
 		front: 'bow',
-		gentleman: ['pirate', 'old salt', 'gentlemen o\' fortune'],
+		gentleman: ['pirate', 'gentlemen o\' fortune'],
 		gin: ['rum', 'port'],
 		girl: ['lass', 'wench', 'comely wench', 'lassie', 'strumpet'],
 		go: ['weigh anchor and hoist the mizzen an\' go', 'set sail an\' go'],
-		good: 'shipshape',
+		good: ['shipshape', 'fine'],
 		grave: ['Davy Jones Locker'],
 		gun: ['musket', 'cannon', 'blunderbuss'],
 		ha: 'yo ho',
 		haha: 'yo ho ho',
 		hahaha: 'yo ho ho and a bottle o\' run',
+		hand: ['hook', 'hand'],
 		hello: ['avast', 'ahoy'],
 		hey: ['avast', 'ahoy'],
 		hi: ['avast', 'ahoy'],
+		him: ['he', '\'im'],
 		home: 'house',
 		hotel: 'inn',
 		house: 'ship',
@@ -102,12 +110,14 @@ const talk_like_a_pirate = (() => {
 		ill: 'poxy',
 		inbetween: 'betwixt',
 		infected: 'poxy',
+		internet: ['t\'interweb'],
+		internets: ['t\'interwebs'],
 		investment: ['gold', 'riches', 'buried treasure', 'booty', 'Plunder'],
 		is: 'be',
 		island: 'isle',
 		jail: 'brig',
 		journey: ['voyage', 'adventure'],
-		just: 'jus',
+		just: 'jus\'',
 		kitchen: 'gally',
 		knife: 'cutlass',
 		ladies: ['wenches', 'beauties'],
@@ -116,7 +126,10 @@ const talk_like_a_pirate = (() => {
 		lean: 'list',
 		leave: ['abandon ship', 'set sail'],
 		left: 'port',
+		little: 'wee',
+		logout: 'abandon ship',
 		luggage: 'cargo',
+		madam: ['buxom wench'],
 		male: ['pirate', 'old salt'],
 		males: 'pirates',
 		man: ['pirate', 'old salt'],
@@ -125,16 +138,20 @@ const talk_like_a_pirate = (() => {
 		meters: 'fathoms',
 		mile: 'league',
 		miles: 'leagues',
+		miss: ['lady'],
 		money: ['gold', 'riches', 'buried treasure', 'booty', 'Plunder'],
 		mop: 'swab',
+		mrs: ['madam', 'lady'],
+		ms: ['...'],
 		my: 'me',
+		neighbourhood: 'port',
 		never: 'Ne\'er',
 		ocean: 'briney deep',
 		overtake: 'overhaul',
 		people: ['land lubbers', 'scurvy land lubbers'],
 		person: ['land lubber', 'scurvy land lubber', 'scurvy dog'],
-		pirate: ['buccaneer', 'genteman o\' fortune', 'corsair'],
-		pirates: ['buccaneers', 'genteman o\' fortune', 'corsairs'],
+		pirate: ['buccaneer', 'genteman o\' fortune'/* , 'corsair' */],
+		pirates: ['buccaneers', 'genteman o\' fortune'/* , 'corsairs' */],
 		place: ['port', 'haven'],
 		prepare: 'batten down the hatches',
 		prison: 'brig',
@@ -151,6 +168,7 @@ const talk_like_a_pirate = (() => {
 		saved: 'buried',
 		scared: ['lily-livered'],
 		sea: 'briney deep',
+		sex: ['tha beast wi\' two backs'],
 		should: 'shall',
 		sick: 'poxy',
 		silly: 'daft',
@@ -158,17 +176,22 @@ const talk_like_a_pirate = (() => {
 		sir: ['ye scurvy dog', 'ye lily-livered rapscallion', 'ye poxy bilge rat', 'ye salty olde sea-dog'],
 		small: ['puny', 'wee'],
 		song: 'chantey',
-		sorry: 'yarrr',
+		sorry: 'beggin\' forgivness',
 		still: 'becalmed',
 		stop: ['avast', 'belay'],
+		stories: ['tales', 'ledgends','myths'],
 		stranger: 'interloper',
 		sword: 'cutlass',
-		talk: 'parlay',
+		task: 'duty',
 		tea: ['grog', 'ale'],
 		telescope: 'spyglass',
-		the: ['t\'', 'ye', 'thar', 'yonder'],
+		the: ['ye', 'thar'],
 		them: 'em',
+		there: 'abouts',
+		these: 'these \'ere',
 		this: 'This \'ere',
+		tit: ['bosom', 'bust'],
+		tits: ['bosom', 'bust'],
 		to: 't\'',
 		too: 't\'',
 		tour: 'adventure',
@@ -178,9 +201,11 @@ const talk_like_a_pirate = (() => {
 		was: 'be',
 		whip: 'cat o\' nine tails',
 		whiskey: ['rum', 'port', 'Clap of Thunder'],
+		wife: ['ball and chain', 'woman'],
 		with: 'wi\'',
 		woman: ['wench', 'beauty'],
 		work: 'duty',
+		would: ['be'],
 		wow: ['blow me down', 'shiver me timbers', 'Sink Me'],
 		yacht: 'clipper',
 		yeah: ['yarrr', 'aye'],
@@ -188,8 +213,6 @@ const talk_like_a_pirate = (() => {
 		yes: ['yarrr', 'aye'],
 		you: ['ye'],
 		your: ['ye', 'yer', 'thee'],
-		would: ['be'],
-		sex: ['tha beast wi\' two backs']
 	}
 
 	const CTX = {
@@ -198,7 +221,11 @@ const talk_like_a_pirate = (() => {
 				'a', 
 				'an', 
 				'that', 
-				'those'
+				'those',
+				'this',
+				'thing',
+				'my',
+				'your',
 			],
 			ACTION: [
 				'will',
@@ -206,6 +233,7 @@ const talk_like_a_pirate = (() => {
 				'could',
 				'to',
 				'can\'t',
+				/ed$/i,
 			],
 			EVENT: [
 				'go',
@@ -214,17 +242,26 @@ const talk_like_a_pirate = (() => {
 			SELF: [
 				'i',
 				'me',
+			],
+			DESCRIBE: [
+				'beautiful'
 			]
 		},
 		POST: {
-			REQUEST: [
-				'like',
-				'you'
-			],
 			ACTION: [
 				'sex',
 				'dig',
 				/ing$/i,
+			],
+			ITEM: [
+
+			],
+			REQUEST: [
+				'like',
+				'you'
+			],
+			QUESTION: [
+				'?'
 			]
 		}
 	}
@@ -240,6 +277,23 @@ const talk_like_a_pirate = (() => {
 		me: [{ b: ['excuse'], w: [''], a: [] }],
 		talk: [{ b: CTX.PRE.ACTION, w: ['be talkin\''], a: [] }],
 		would: [{ b: [], w: ['would'], a: CTX.POST.REQUEST }],
+		woman: [{ b: CTX.PRE.DESCRIBE, w: ['wench'], a: []}],
+		work: [
+			{ b: CTX.PRE.ITEM, w: ['accursed contraption work'], a: CTX.POST.QUESTION },
+			{ b: ['your'], w: ['duty'], a: CTX.POST.QUESTION },
+
+		],
+		still: [
+			{ b: [], w: ['stll'], a: CTX.POST.ACTION },
+			{ b: [], w: ['becalmed'], a: ['water', 'waaters'] },
+		],
+		hand: [
+			{ b: ['left', 'right'], w: ['side'], a: CTX.POST.ITEM }
+		],
+		dick: [
+			{ b: CTX.PRE.ITEM, w: ['mermaid worrier'], a: [] }
+		]
+		// example: [{ b: [], w: [], a: [] }]
 	}
 
 	const isWord = (val) => /[a-z'-]{1,}/i.test(val)
@@ -255,6 +309,10 @@ const talk_like_a_pirate = (() => {
 		before = before.toLowerCase()
 		word = word.toLowerCase()
 		after = after.toLowerCase()
+
+		if (['a', 'an'].includes(word)) {
+			return ['a', 'e', 'i', 'o', 'u'].includes(word.substr(0, 1)) ? 'a' : 'an'
+		}
 
 		if (advanced_pirate_talk[word]){
 			let options = []
@@ -292,7 +350,7 @@ const talk_like_a_pirate = (() => {
 
 		// no translation available
 		if (ing.test(word)) {
-			word = word.replace(ing, ['in\'', '\'n'][randomInt(0, 1)])
+			word = word.replace(ing, ['in\'', '\'n\''][randomInt(0, 1)])
 		}
 		
 		return word
@@ -366,17 +424,16 @@ const talk_like_a_pirate = (() => {
 			const after = next(strArr, i)
 
 			if (!isWord(strArr[i])) {
-
 				pirate_speak += strArr[i]
-				
-				// maybe add randon pirate saying afterwards
-				if (isPunk(strArr[i]) && Math.random() > EOL_CHANGE) pirate_speak += ' ' + translate(before, '__eol__', after)
-
 				continue
 			}
 
 			// must be a word to translate. 
 			pirate_speak += apply_caps(strArr[i], translate(before, strArr[i], after))
+
+
+			// maybe add randon pirate saying afterwards
+			if (isPunk(after) && word.length > EOL_WORD_LENGTH && Math.random() > EOL_CHANGE) pirate_speak += ' ' + translate(before, '__eol__', after)
 
 		}
 
