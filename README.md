@@ -28,5 +28,5 @@ I would like to read a book and book a holiday
 ```
 translates to
 ```
-I would like t' read an scroll an' sign on t' an adventure 
+I would like t' read a scroll an' sign on t' an adventure 
 ```
