@@ -65,7 +65,7 @@ const talk_like_a_pirate = (() => {
 		REQUEST: ['like', 'you'],
 	}
 
-	const a_or_an = (b, w, a) => ['a', 'e', 'i', 'o', 'u'].includes(talk_like_a_pirate(a).substr(0, 1)) ? 'a' : 'an'
+	const a_or_an = (b, w, a) => ['a', 'e', 'i', 'o', 'u'].includes(translate('a', a).substr(0, 1)) ? 'an' : 'a'
 
 	const pirate_talk = {
 		__eol__: ['Arrrr!', 'Arrrgh!', 'Shiver me timbers!', 'Arrrgh, Jim lad.',],
