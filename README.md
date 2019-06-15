@@ -22,3 +22,11 @@ talk_like_a_pirate(str)
 // I don't be belivein' you'd rather play wi' that damn genteman o' fortune talk th'n' than be makein' tha beast wi' two backs wi' a beautiful wench. Arrrgh, Jim lad.
 
 ```
+Context matching allows better translation of word with multiple meanings:
+```
+I would like to read a book and book a holiday 
+```
+translates to
+```
+I would like t' read an scroll an' sign on t' an adventure 
+```
