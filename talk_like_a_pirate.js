@@ -307,7 +307,9 @@ const talk_like_a_pirate = (() => {
 
 		if (pirate_talk[word]){
 			if (typeof pirate_talk[word] === 'function') return pirate_talk[word](before, word, after)
-			return pirate_talk[word][randomInt(0, pirate_talk[word].length - 1)]
+			const selected = pirate_talk[word][randomInt(0, pirate_talk[word].length - 1)]
+			if (typeof selected === 'function') return selected(before, word, after)
+			return selected
 		}
 
 		// no translation available
