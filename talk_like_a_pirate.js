@@ -384,17 +384,17 @@ const talk_like_a_pirate = (() => {
 		// translate array elements
 		for (let i in strArr) {
 
-			// find previous/next array element that isn't a space
-			// we pass curent word as well as previous and next for mathcing context
-			// see advanced_pirate_talk object for context definitions
-			const before = previous(strArr, i)
-			const after = next(strArr, i)
-
 			if (!isWord(strArr[i])) {
 				pirate_speak += strArr[i]
 				continue
 			}
 
+			// find previous/next array element that isn't a space
+			// we pass curent word as well as previous and next for mathcing context
+			// see advanced_pirate_talk object for context definitions
+			const before = previous(strArr, i)
+			const after = next(strArr, i)
+			
 			// must be a word to translate. 
 			pirate_speak += apply_caps(strArr[i], translate(before, strArr[i], after))
 
