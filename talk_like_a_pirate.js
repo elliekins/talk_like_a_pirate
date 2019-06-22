@@ -1,11 +1,11 @@
-/* global dom */
 const talk_like_a_pirate = (() => {
 
 	const EOL_CHANGE = 0.25
 	const EOL_WORD_LENGTH = 3
+	const EOL_MIN_TRANSLATION_LENGTH = 15
 
-	// Context definition objects give differnet translations options depending on 
-	// the word that come before/after the one being translated
+	// Context definition objects give different translation options depending on 
+	// the words that come before and after the one being translated
 	// [{b: [before word], w: [word translation options], a: [after word]}, ....]
 	// optionally the above array may contain an object like: { default: [translation options] }
 	const context_matching_factory = (context_object_array) => (before, word, after) => {
@@ -21,8 +21,8 @@ const talk_like_a_pirate = (() => {
 				defaultOption = option
 				continue
 			}
-			if (option.b.find((item) => (item.test) ? item.test(before) : before === item)) weight++
-			if (option.a.find((item) => (item.test) ? item.test(after) : after === item)) weight++
+			if (option.b && option.b.find((item) => (item.test) ? item.test(before) : before.replace(/['-]/g, '') === item)) weight++
+			if (option.a && option.a.find((item) => (item.test) ? item.test(after) : after.replace(/['-]/g, '') === item)) weight++
 			if (weight > 0) options.push({ option, weight })
 		}
 
@@ -68,14 +68,7 @@ const talk_like_a_pirate = (() => {
 	const a_or_an = (b, w, a) => ['a', 'e', 'i', 'o', 'u'].includes(translate('a', a).substr(0, 1)) ? 'an' : 'a'
 
 	const pirate_talk = {
-		__eol__: ['Arrrr!', 'Arrrgh!', 'Shiver me timbers!', 'Arrrgh, Jim lad.',],
-		'can\'t': context_matching_factory([{ b: PRE.SELF, w: ['don\'t be'], a: ['believe'] }]),
-		'i\'m': ['I be'],
-		'isn\'t': ['be not'],
-		'it\'s': ['it be', '\'tis'],
-		'that\'s': ['that be'],
-		'you\'re': ['you be'],
-		'you\'ve': ['ye'],
+		__eol__: ['Arrrr!', 'Arrrgh!', 'Shiver me timbers!', 'Arrrgh, Jim lad',],
 		a: a_or_an,
 		abandon: ['maroon'],
 		abandoned: ['marooned'],
@@ -97,23 +90,26 @@ const talk_like_a_pirate = (() => {
 		beer: ['grog', 'ale'],
 		before: ['afore'],
 		belief: ['creed'],
-		believe: context_matching_factory([{ b: PRE.ACTION, w: ['belivein\''], a: [] }]),
+		believe: context_matching_factory([{ b: PRE.ACTION, w: ['belivein\'']}]),
 		best: ['finest'],
 		between: ['betwixt'],
-		big: ['vast'],
+		big: ['vast', 'huge', 'gargantuan', 'great'],
 		binoculars: ['spyglass'],
 		boat: ['ship', 'Man-O-War', 'clipper', 'cog', 'galleon', 'schooner'],
-		book: context_matching_factory([{ b: PRE.ACTION, w: ['sign on t\''], a: ['a'] }, { b: PRE.ITEM, w: ['scroll', 'partchment'], a: [] }]),
+		book: context_matching_factory([{ b: PRE.ACTION, w: ['sign on t\''], a: ['a'] }, { b: PRE.ITEM, w: ['scroll', 'partchment']}]),
 		boss: ['captain', 'Cap\'n', 'admiral'],
-		box: ['barrel', 'chest', 'box'],
 		boy: ['lad', 'pirate'],
 		broken: ['sunk'],
+		fat: context_matching_factory([{ b: ['her'], w: ['voluptuous'], a: ['woman'] }]),
 		business: ['company'],
 		businesses: ['companies'],
+		cant: context_matching_factory([{ b: PRE.SELF, w: ['don\'t be'], a: ['believe'] }]),
 		caribbean: ['Spanish Main'],
 		cash: ['gold', 'coins', 'treasure', 'doubloons', 'booty'],
 		cat: ['fury parrot'],
 		cheat: ['hornswaggle'],
+		classic: ['old'],
+		classics: ['old'],
 		clean: ['swab'],
 		click: ['skewer', 'stab', 'poke'],
 		client: ['Scurvy Dog'],
@@ -134,7 +130,7 @@ const talk_like_a_pirate = (() => {
 		daughters: ['wenches'],
 		dead: ['feedin\' the fishes'],
 		dealer: ['sutler', 'chandler'],
-		dick: context_matching_factory([{ b: [...PRE.ITEM, ...PRE.OWNERSHIP, ...PRE.DESCRIBE], w: ['mermaid worrier', 'little sailor', 'Jolly Rodger'], a: [] }]),
+		dick: context_matching_factory([{ b: [...PRE.ITEM, ...PRE.OWNERSHIP, ...PRE.DESCRIBE], w: ['mermaid worrier', 'Jolly Rodger']}]),
 		die: ['dance with Jack Ketch', 'walk the plank', 'dance the hempen jig'],
 		died: ['be feedin\' the fishes', 'danced with Jack Ketch', 'walked t\' plank', 'went donw t\' Davey Jones locker', 'danced the hempen jig'],
 		disabled: ['crippled', 'takin\' on water'],
@@ -145,9 +141,10 @@ const talk_like_a_pirate = (() => {
 		egg: ['Cackle fruit'],
 		employee: ['crew'],
 		everyone: ['all hands'],
-		excuse: context_matching_factory([{ b: [], w: ['oi!'], a: ['me'] }]),
+		excuse: context_matching_factory([{w: ['oi!'], a: ['me'] }]),
 		fabric: ['canvas', 'hemp'],
 		family: ['kin'],
+		families: ['crews', 'clans'],
 		fee: ['debt'],
 		female: ['wench', 'lass', 'comely wench'],
 		females: ['wenches', 'beauties'],
@@ -169,17 +166,18 @@ const talk_like_a_pirate = (() => {
 		haha: ['yo ho ho'],
 		hahaha: ['yo ho ho and a bottle o\' run'],
 		hand: context_matching_factory([{ default: ['hook'] }, { b: ['left', 'right'], w: ['side'], a: POST.ITEM }]),
-		have: context_matching_factory([{ b: [], w: ['be makein\''], a: ['sex'] }]),
+		have: context_matching_factory([{w: ['be makein\''], a: ['sex'] }]),
 		hello: ['avast', 'ahoy'],
 		hey: ['avast', 'ahoy'],
 		hi: ['avast', 'ahoy'],
 		him: ['he', '\'im'],
-		holiday: context_matching_factory([{ b: PRE.ITEM, w: ['adventure'], a: [] }]),
+		holiday: context_matching_factory([{ b: PRE.ITEM, w: ['adventure']}]),
 		home: ['house'],
 		hotel: ['inn'],
 		house: ['ship'],
 		huge: ['vast'],
 		ill: ['poxy'],
+		im: ['I be'],
 		inbetween: ['betwixt'],
 		infected: ['poxy'],
 		internet: ['t\'interweb'],
@@ -187,6 +185,8 @@ const talk_like_a_pirate = (() => {
 		investment: ['gold', 'riches', 'buried treasure', 'booty', 'Plunder'],
 		is: ['be'],
 		island: ['isle'],
+		isnt: ['be not'],
+		its: ['it be', '\'tis'],
 		jail: ['brig'],
 		journey: ['voyage', 'adventure'],
 		just: ['jus\''],
@@ -207,7 +207,7 @@ const talk_like_a_pirate = (() => {
 		man: ['pirate', 'old salt'],
 		manager: ['boatswain', 'bosun', 'coxswain'],
 		massive: ['vast'],
-		me: context_matching_factory([{ b: ['excuse'], w: [''], a: [] }]),
+		me: context_matching_factory([{ b: ['excuse'], w: ['']}]),
 		meter: ['fathom'],
 		meters: ['fathoms'],
 		mile: ['league'],
@@ -252,15 +252,16 @@ const talk_like_a_pirate = (() => {
 		small: ['puny', 'wee'],
 		song: ['chantey'],
 		sorry: ['beggin\' forgivness'],
-		still: context_matching_factory([{ b: [], w: ['stll'], a: POST.ACTION }, { b: [], w: ['becalmed'], a: ['water', 'waaters'] },]),
+		still: context_matching_factory([{w: ['stll'], a: POST.ACTION }, {w: ['becalmed'], a: ['water', 'waaters'] },]),
 		stop: ['avast', 'belay'],
-		stories: ['tales', 'ledgends','myths'],
+		stories: ['tales'],
 		stranger: ['interloper'],
 		sword: ['cutlass'],
-		talk: context_matching_factory([{ b: PRE.ACTION, w: ['be talkin\''], a: [] }]),
+		talk: context_matching_factory([{ b: PRE.ACTION, w: ['be talkin\'']}]),
 		task: ['duty'],
 		tea: ['grog', 'ale'],
 		telescope: ['spyglass'],
+		thats: ['that be'],
 		the: ['ye', 'thar'],
 		them: ['em'],
 		there: ['abouts'],
@@ -279,9 +280,9 @@ const talk_like_a_pirate = (() => {
 		whiskey: ['rum', 'port', 'Clap of Thunder'],
 		wife: ['ball and chain', 'woman'],
 		with: ['wi\''],
-		woman: context_matching_factory([{ default: ['wench', 'beauty'] }, { b: PRE.DESCRIBE, w: ['wench'], a: [] }]),
+		woman: context_matching_factory([{ default: ['wench', 'beauty'] }, { b: PRE.DESCRIBE, w: ['wench']}]),
 		work: context_matching_factory([{ b: PRE.ITEM, w: ['accursed contraption work'], a: POST.QUESTION }, { b: PRE.OWNERSHIP, w: ['duty'], a: POST.QUESTION },]),
-		would: context_matching_factory([{ default: ['be'] }, { b: [], w: ['would'], a: POST.REQUEST }]),
+		would: context_matching_factory([{ default: ['be'] }, {w: ['would'], a: POST.REQUEST }]),
 		wow: ['blow me down', 'shiver me timbers', 'Sink Me'],
 		yacht: ['clipper'],
 		yeah: ['yarrr', 'aye'],
@@ -289,6 +290,8 @@ const talk_like_a_pirate = (() => {
 		yes: ['yarrr', 'aye'],
 		you: ['ye'],
 		your: ['ye', 'yer', 'thee'],
+		youre: ['you be'],
+		youve: ['ye'],
 	}
 
 	const isWord = (val) => /[a-z'-]{1,}/i.test(val)
@@ -299,11 +302,12 @@ const talk_like_a_pirate = (() => {
 
 	const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min
 
-	const translate = (before = '', word = '', after = '') => {
+	const translate = (_before = '', _word = '', _after = '') => {
 
-		before = before.toLowerCase()
-		word = word.toLowerCase()
-		after = after.toLowerCase()
+		// comparrison with dictionary keys are lowercase and without hyphens/apostrophes etc
+		const before = _before.toLowerCase().replace(/['-]/g, '')
+		let word = _word.toLowerCase().replace(/['-]/g, '')
+		const after = _after.toLowerCase().replace(/['-]/g, '')
 
 		if (pirate_talk[word]){
 			if (typeof pirate_talk[word] === 'function') return pirate_talk[word](before, word, after)
@@ -317,7 +321,7 @@ const talk_like_a_pirate = (() => {
 			word = word.replace(ing, ['in\'', '\'n\''][randomInt(0, 1)])
 		}
 		
-		return word
+		return _word
 	}
 
 	const previous = (arr, idx) => {
@@ -355,7 +359,7 @@ const talk_like_a_pirate = (() => {
 		let pirate_speak = ''
 		let word = ''
 
-		// build text in to array (words, punk-tuation and space elements)
+		// build text in to array (words, punk-tuation and white space elements)
 		for (let i in str){
 			if (str.hasOwnProperty(i)) {
 
@@ -384,22 +388,32 @@ const talk_like_a_pirate = (() => {
 		// translate array elements
 		for (let i in strArr) {
 
-			if (!isWord(strArr[i])) {
-				pirate_speak += strArr[i]
-				continue
-			}
-
 			// find previous/next array element that isn't a space
-			// we pass curent word as well as previous and next for mathcing context
-			// see advanced_pirate_talk object for context definitions
+			// we pass curent word as well as previous and next for matching context
 			const before = previous(strArr, i)
 			const after = next(strArr, i)
+
+			if (!isWord(strArr[i])) {
+
+				// maybe add random pirate saying at the end of the line
+				if (isPunk(strArr[i]) 
+					&& before.length > EOL_WORD_LENGTH 
+					&& strArr.length > EOL_MIN_TRANSLATION_LENGTH
+					&& Math.random() > EOL_CHANGE
+				) {
+					pirate_speak += ', ' + translate(before, '__eol__', after)
+					// don't bother with full stops if we've added a new EOL phrase
+					if (strArr[i] === '.') continue
+				}
+
+				pirate_speak += strArr[i]
+
+				continue
+			}
 			
 			// must be a word to translate. 
 			pirate_speak += apply_caps(strArr[i], translate(before, strArr[i], after))
 
-			// maybe add randon pirate saying afterwards
-			if (isPunk(after) && strArr[i].length > EOL_WORD_LENGTH && Math.random() > EOL_CHANGE) pirate_speak += ' ' + translate(before, '__eol__', after)
 
 		}
 
@@ -407,12 +421,3 @@ const talk_like_a_pirate = (() => {
 	}
 
 })()
-
-
-// if in browser and dom.js is loaded, add this as a plugin
-if (window) {
-	if (window.dom) dom.registerPlugin('talk_like_a_pirate', (e) => { 
-		e.innerHTML = talk_like_a_pirate(e.innerHTML) 
-		e.value = talk_like_a_pirate(e.value) 
-	})
-}
