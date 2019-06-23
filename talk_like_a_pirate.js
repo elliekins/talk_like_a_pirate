@@ -100,7 +100,6 @@ const talk_like_a_pirate = (() => {
 		boss: ['captain', 'Cap\'n', 'admiral'],
 		boy: ['lad', 'pirate'],
 		broken: ['sunk'],
-		fat: context_matching_factory([{ b: ['her'], w: ['voluptuous'], a: ['woman'] }]),
 		business: ['company'],
 		businesses: ['companies'],
 		cant: context_matching_factory([{ b: PRE.SELF, w: ['don\'t be'], a: ['believe'] }]),
@@ -143,10 +142,11 @@ const talk_like_a_pirate = (() => {
 		everyone: ['all hands'],
 		excuse: context_matching_factory([{w: ['oi!'], a: ['me'] }]),
 		fabric: ['canvas', 'hemp'],
-		family: ['kin'],
 		families: ['crews', 'clans'],
+		family: ['kin'],
+		fat: context_matching_factory([{ b: ['her'], w: ['voluptuous'], a: ['woman'] }]),
 		fee: ['debt'],
-		female: ['wench', 'lass', 'comely wench'],
+		female: ['wench', 'lass'],
 		females: ['wenches', 'beauties'],
 		fighting: ['Swashbucklin\''],
 		food: ['grub'],
@@ -155,9 +155,9 @@ const talk_like_a_pirate = (() => {
 		friend: ['matey', 'shipmate', 'bucko', 'me hearty'],
 		friends: ['crew', 'Hearties'],
 		front: ['bow'],
-		gentleman: ['pirate', 'gentlemen o\' fortune'],
+		gentleman: ['pirate', 'gentleman o\' fortune'],
 		gin: ['rum', 'port'],
-		girl: ['lass', 'wench', 'comely wench', 'lassie', 'strumpet'],
+		girl: ['lass', 'wench', 'lassie', 'strumpet'],
 		go: ['weigh anchor and hoist the mizzen an\' go', 'set sail an\' go'],
 		good: ['shipshape', 'fine'],
 		grave: ['Davy Jones Locker'],
@@ -166,6 +166,7 @@ const talk_like_a_pirate = (() => {
 		haha: ['yo ho ho'],
 		hahaha: ['yo ho ho and a bottle o\' run'],
 		hand: context_matching_factory([{ default: ['hook'] }, { b: ['left', 'right'], w: ['side'], a: POST.ITEM }]),
+		happy: ['jolly'],
 		have: context_matching_factory([{w: ['be makein\''], a: ['sex'] }]),
 		hello: ['avast', 'ahoy'],
 		hey: ['avast', 'ahoy'],
@@ -188,6 +189,7 @@ const talk_like_a_pirate = (() => {
 		isnt: ['be not'],
 		its: ['it be', '\'tis'],
 		jail: ['brig'],
+		javascript: ['Javarrrr...script'],
 		journey: ['voyage', 'adventure'],
 		just: ['jus\''],
 		kitchen: ['gally'],
@@ -224,8 +226,8 @@ const talk_like_a_pirate = (() => {
 		overtake: ['overhaul'],
 		people: ['land lubbers', 'scurvy land lubbers'],
 		person: ['land lubber', 'scurvy land lubber', 'scurvy dog'],
-		pirate: ['buccaneer', 'genteman o\' fortune'/* , 'corsair' */],
-		pirates: ['buccaneers', 'genteman o\' fortune'/* , 'corsairs' */],
+		pirate: ['buccaneer', 'gentleman o\' fortune'/* , 'corsair' */],
+		pirates: ['buccaneers', 'gentleman o\' fortune'/* , 'corsairs' */],
 		place: ['port', 'haven'],
 		prepare: ['batten down the hatches'],
 		prison: ['brig'],
@@ -289,6 +291,7 @@ const talk_like_a_pirate = (() => {
 		yep: ['yarrr', 'aye'],
 		yes: ['yarrr', 'aye'],
 		you: ['ye'],
+		young: ['little'],
 		your: ['ye', 'yer', 'thee'],
 		youre: ['you be'],
 		youve: ['ye'],
@@ -317,10 +320,8 @@ const talk_like_a_pirate = (() => {
 		}
 
 		// no translation available
-		if (ing.test(word)) {
-			word = word.replace(ing, ['in\'', '\'n\''][randomInt(0, 1)])
-		}
-		
+		if (ing.test(word)) _word = word.replace(ing, ['in\'', '\'n\''][randomInt(0, 1)])
+	
 		return _word
 	}
 
@@ -397,7 +398,7 @@ const talk_like_a_pirate = (() => {
 
 				// maybe add random pirate saying at the end of the line
 				if (isPunk(strArr[i]) 
-					&& before.length > EOL_WORD_LENGTH 
+					&& before && before.length > EOL_WORD_LENGTH 
 					&& strArr.length > EOL_MIN_TRANSLATION_LENGTH
 					&& Math.random() > EOL_CHANGE
 				) {
@@ -413,11 +414,7 @@ const talk_like_a_pirate = (() => {
 			
 			// must be a word to translate. 
 			pirate_speak += apply_caps(strArr[i], translate(before, strArr[i], after))
-
-
 		}
-
 		return pirate_speak
 	}
-
 })()
