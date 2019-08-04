@@ -1,4 +1,4 @@
-cconst talk_like_a_pirate = (() => {
+const talk_like_a_pirate = (() => {
 
 	const EOL_CHANCE = 0.25
 	const EOL_WORD_LENGTH = 3
