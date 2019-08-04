@@ -1,4 +1,4 @@
-const talk_like_a_pirate = (() => {
+cconst talk_like_a_pirate = (() => {
 
 	const EOL_CHANCE = 0.25
 	const EOL_WORD_LENGTH = 3
@@ -20,8 +20,8 @@ const talk_like_a_pirate = (() => {
 				defaultOption = option
 				continue
 			}
-			if (option.b && option.b.find((item) => (item.test) ? item.test(before) : before.replace(/['-]/g, '') === item)) weight++
-			if (option.a && option.a.find((item) => (item.test) ? item.test(after) : after.replace(/['-]/g, '') === item)) weight++
+			if (option.b && option.b.find((item) => (item.test) ? item.test(before) : before === item)) weight++
+			if (option.a && option.a.find((item) => (item.test) ? item.test(after) : after === item)) weight++
 			if (weight > 0) options.push({ option, weight })
 		}
 
@@ -79,7 +79,7 @@ const talk_like_a_pirate = (() => {
 		__eol__: ['Arrrr!', 'Arrrgh!', 'Shiver me timbers!', 'Arrrgh, Jim lad!',],
 		'.': eol,
 		a: a_or_an,
-		abandon: ['maroon'],
+		abandon: match_context([{ w: ['maroon'], a: 'on' }]),
 		abandoned: ['marooned'],
 		address: ['port'],
 		admin: ['helm'],
@@ -109,7 +109,8 @@ const talk_like_a_pirate = (() => {
 		book: match_context([{ b: PRE.ACTION, w: ['sign on t\''], a: ['a'] }, { b: PRE.ITEM, w: ['scroll', 'partchment']}]),
 		boss: ['captain', 'Cap\'n', 'admiral'],
 		boy: ['lad', 'pirate'],
-		broken: ['sunk'],
+		broke: ['sunk'],
+		broken: match_context([{ b: ['has'], w: ['sprung a leak'] }, { default: ['sunk']}]),
 		business: ['company'],
 		businesses: ['companies'],
 		cant: match_context([{ b: PRE.SELF, w: ['don\'t be'], a: ['believe'] }]),
@@ -128,10 +129,10 @@ const talk_like_a_pirate = (() => {
 		coin: ['doubloon'],
 		coins: ['doubloons'],
 		comes: ['hails'],
-		computer: ['magic box'],
+		computer: ['box \'o cogs'],
 		con: ['Hornswaggle'],
 		contractor: ['Privateer'],
-		control: ['ye helm'],
+		control: ['helm'],
 		cool: ['shipshape'],
 		country: ['land'],
 		crew: ['hands'],
@@ -143,10 +144,12 @@ const talk_like_a_pirate = (() => {
 		dealer: ['sutler', 'chandler'],
 		dick: match_context([{ b: [...PRE.ITEM, ...PRE.OWNERSHIP, ...PRE.DESCRIBE], w: ['mermaid worrier', 'Jolly Rodger']}]),
 		die: ['dance with Jack Ketch', 'walk the plank', 'dance the hempen jig'],
-		died: ['be feedin\' the fishes', 'danced with Jack Ketch', 'walked t\' plank', 'went donw t\' Davey Jones locker', 'danced the hempen jig'],
+		died: ['be feedin\' the fishes', 'danced with Jack Ketch', 'walked t\' plank', 'went down t\' Davey Jones locker', 'danced the hempen jig'],
 		disabled: ['crippled', 'takin\' on water'],
 		disembark: ['abandon ship'],
 		do: ['d\''],
+		document: ['parchment', 'map', 'deed'],
+		documents: ['parchments', 'maps', 'deeds'],
 		dog: ['barkin\' parrot'],
 		drunk: ['squiffy', 'three sheets to the wind'],
 		egg: ['Cackle fruit'],
@@ -212,6 +215,7 @@ const talk_like_a_pirate = (() => {
 		knife: ['cutlass'],
 		ladies: ['wenches', 'beauties'],
 		lady: ['lass', 'wench', 'beauty', 'strumpet'],
+		language: match_context([{ b: ['programming'], w: ['language']}, {default: ['tongue']}]),
 		large: ['vast'],
 		lean: ['list'],
 		leave: ['abandon ship', 'set sail'],
@@ -244,9 +248,13 @@ const talk_like_a_pirate = (() => {
 		neighbourhood: ['port'],
 		never: ['Ne\'er'],
 		ocean: ['briney deep'],
+		or: ['nor'],
 		overtake: ['overhaul'],
 		people: ['land lubbers', 'scurvy land lubbers'],
 		person: ['land lubber', 'scurvy land lubber', 'scurvy dog'],
+		photo: ['photie'],
+		photograph: ['photiegraph'],
+		photographs: ['photiegraphs'],
 		pirate: ['buccaneer', 'gentleman o\' fortune'],
 		pirates: ['buccaneers', 'gentleman o\' fortune'],
 		place: ['port', 'haven'],
@@ -267,7 +275,7 @@ const talk_like_a_pirate = (() => {
 		saved: ['buried'],
 		scared: ['lily-livered'],
 		sea: ['briney deep'],
-		server: ['box \'o cogs'],
+		server: ['big box \'o cogs'],
 		sex: ['tha beast wi\' two backs'],
 		should: ['shall'],
 		sick: ['poxy'],
@@ -288,7 +296,7 @@ const talk_like_a_pirate = (() => {
 		telescope: ['spyglass'],
 		thats: ['that be'],
 		the: ['ye', 'thar'],
-		them: ['em'],
+		them: ['\'em'],
 		there: ['abouts'],
 		these: ['these \'ere'],
 		this: ['This \'ere'],
@@ -302,6 +310,7 @@ const talk_like_a_pirate = (() => {
 		understand: ['Savvy?'],
 		vodka: ['rum', 'port'],
 		was: ['be'],
+		were: ['be'],
 		whip: ['cat o\' nine tails'],
 		whiskey: ['rum', 'port', 'Clap of Thunder'],
 		wife: ['ball and chain', 'woman'],
